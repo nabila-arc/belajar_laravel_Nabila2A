@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KalkulatorController;
+use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\Web;
+
+Route::get('/', function () {
+    //return view('welcome');
+    return "Hallo namaku adalah Laravel, Salam Kenal";
+});
+
+Route::get('/about', function () {
+    //return view('welcome');
+    return "<h2>Ini adalah laman About</h2>";
+});
+
+//route ke controller Web ke fungsi home
+Route::get('/web', [Web::class, 'home']);
+Route::get('/profil/{nama}', [Web::class, 'profil']);
+
+Route::get('/daftar/mahasiswa', [MahasiswaController::class, 'index'])
+    ->name('mahasiswa.index');
+
+Route::get('/kalkulator/segitiga', [KalkulatorController::class, 'segitiga'])
+    ->name('kalkulator.segitiga');
+Route::post('/kalkulator/segitiga', [KalkulatorController::class, 'segitiga'])
+    ->name('kalkulator.segitiga.hitung');
