@@ -154,7 +154,7 @@ belajar_laravel_Nabila2A/
    ```bash
    php artisan serve
    ```
-   Buka browser dan akses:
+   **Buka browser dan akses:**
     | Halaman | Link URL |
     | :--- | :--- |
     | Halaman Mahasiswa | `http://127.0.0.1:8000/daftar/mahasiswa` |
