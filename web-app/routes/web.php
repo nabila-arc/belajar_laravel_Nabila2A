@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KalkulatorController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\Web;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeController;
 
 Route::get('/', function () {
     //return view('welcome');
@@ -26,3 +28,10 @@ Route::get('/kalkulator/segitiga', [KalkulatorController::class, 'segitiga'])
     ->name('kalkulator.segitiga');
 Route::post('/kalkulator/segitiga', [KalkulatorController::class, 'segitiga'])
     ->name('kalkulator.segitiga.hitung');
+
+//route ke controller Dashboard
+Route::get('/dashboard',[DashboardController::class, 'home']);
+Route::get('/gallery',[DashboardController::class, 'gallery']);    
+
+//route ke controller Employe
+Route::get('/employe',[EmployeController::class, 'index']);
