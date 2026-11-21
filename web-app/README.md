@@ -76,7 +76,7 @@ belajar_laravel_Nabila2A/
 ```
 
 
-# Praktikum Pemrograman Web - Sistem Templating Laravel (Blade)
+# BAB Sistem Templating Laravel (Blade)
 
 Repository ini berisi hasil pengerjaan tugas **Pemrograman Web SI 2A** melanjutkan modul praktikum framework Laravel pada bagian **Sistem Templating** (Halaman 12–19), mencakup pembagian struktur *layout* menggunakan Blade (`@include`, `@yield`, `@extends`, `@section`), pengelolaan aset CSS, serta konfigurasi *controller* dan *routing*.
 
@@ -131,6 +131,103 @@ belajar_laravel_Nabila2A/
 | `GET` | `/dashboard` | `DashboardController@home` | Menampilkan laman utama (Home) dengan layout template |
 | `GET` | `/gallery` | `DashboardController@gallery` | Menampilkan laman Gallery dengan layout template yang sama |
 
+
+# BAB Fitur CRUD 
+
+Repositori praktikum mata kuliah **Pemrograman Web** menggunakan framework **Laravel** yang mencakup implementasi *Routing*, *Controller*, *Blade Templating*, serta operasi *CRUD (Create, Read, Update, Delete)* dengan database **MySQL** pada halaman 19-27.
+
+## Fitur yang Telah Diimplementasikan (Bab Fitur CRUD)
+
+1. **Integrasi Database MySQL & Model Eloquent**
+   - Menghubungkan aplikasi Laravel ke database **`company`** pada MySQL (XAMPP)[cite: 1, 6].
+   - Konfigurasi model Eloquent **`Employe`** (`app/Models/Employe.php`) yang dipetakan ke tabel **`employes`** dengan primary key `id` serta pengaturan *mass assignment* (`$fillable`) untuk kolom `id`, `nama`, `alamat`, `gender`, dan `gaji`.
+2. **Read / Tampil Data Pegawai (`/employe`)**
+   - Mengambil seluruh rekaman data pegawai dari tabel `employes` menggunakan metode `Employe::all()` pada **`EmployeController@index`**.
+   - Menampilkan data ke dalam tabel terstruktur pada view **`tampil_data.blade.php`** yang terintegrasi dengan *master layout* Blade (`@extends('dashboard')` dan `@section('content')`).
+   - Menyediakan antarmuka kolom aksi (**Edit** dan **Delete**) pada setiap baris data pegawai.
+
+     <img width="1366" height="742" alt="database CRUD" src="https://github.com/user-attachments/assets/fa102abc-9200-4ba9-9c41-afb108bea9da" />
+     <img width="1366" height="733" alt="edit" src="https://github.com/user-attachments/assets/497c7c4e-8dd8-4436-86e1-cc37310b3b87" />
+
+
+---
+
+## Struktur Utama Proyek (`web-app/`)
+
+```text
+web-app/
+├── app/
+│   ├── Http/
+│   │   └── Controllers/
+│   │       ├── DashboardController.php
+│   │       ├── EmployeController.php
+│   │       ├── KalkulatorController.php
+│   │       ├── MahasiswaController.php
+│   │       └── Web.php
+│   └── Models/
+│       └── Employe.php
+├── public/
+│   ├── css/
+│   └── js/
+├── resources/
+│   └── views/
+│       ├── kalkulator/
+│       ├── layouts/
+│       ├── mahasiswa/
+│       ├── template/
+│       ├── dashboard.blade.php
+│       ├── gallery.blade.php
+│       └── tampil_data.blade.php
+├── routes/
+│   └── web.php
+└── README.md
+```
+## Konfigurasi Database (`MySQL / XAMPP`)
+<img width="1366" height="739" alt="employes" src="https://github.com/user-attachments/assets/ad3a7d6a-193c-437c-bfa0-348bb0a7b73b" />
+
+- **Nama Database:** `company`
+- **Nama Tabel:** `employes`
+
+| Kolom | Tipe Data | Keterangan |
+| :--- | :--- | :--- |
+| `id` | `INT(11)` | Primary Key (`AUTO_INCREMENT`) |
+| `nama` | `VARCHAR(100)` | Nama lengkap pegawai |
+| `alamat` | `TEXT` | Alamat domisili pegawai |
+| `gender` | `ENUM('L', 'P')` | Jenis kelamin (`L` = Laki-laki, `P` = Perempuan) |
+| `gaji` | `INT(11)` | Nominal gaji pegawai |
+| `created_at` | `TIMESTAMP` | Waktu data dibuat |
+| `updated_at` | `TIMESTAMP` | Waktu data diperbarui |
+---
+
+## Daftar Endpoint / URL
+
+| Method | Endpoint / URL | Controller & Method | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/` | `Web@index` | Halaman beranda utama aplikasi |
+| `GET` | `/dashboard` | `DashboardController@index` | Halaman utama dashboard dengan master layout |
+| `GET` | `/gallery` | `DashboardController@gallery` | Halaman galeri menggunakan template layout |
+| `GET` | `/mahasiswa` | `MahasiswaController@index` | Menampilkan daftar data mahasiswa |
+| `GET` | `/kalkulator` | `KalkulatorController@index` | Menampilkan halaman form kalkulator geometri |
+| `POST` | `/kalkulator` | `KalkulatorController@hitung` | Memproses perhitungan rumus geometri dari input form |
+| `GET` | `/employe` | `EmployeController@index` | Menampilkan seluruh data pegawai dari tabel `employes` |
+---
+
+## Cara Menjalankan Proyek Secara Lokal untuk CRUD
+
+1. **Sesuaikan koneksi database di file `.env`:**
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=company
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+2. **Jalankan migrasi & server lokal:**
+   ```bash
+   php artisan migrate
+   php artisan serve
+   ```
 ## Cara Menjalankan di Komputer Lokal
 
 1. **Clone repositori dan masuk ke folder proyek:**
@@ -161,7 +258,7 @@ belajar_laravel_Nabila2A/
     | Halaman Kalkulator | `http://127.0.0.1:8000/kalkulator/segitiga` |
     | Halaman Home | `http://127.0.0.1:8000/dashboard` |
     | Halaman Gallery | `http://127.0.0.1:8000/gallery` |
-
+    | Halaman CRUD data pegawai | `http://127.0.0.1:8000/employe` |
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
