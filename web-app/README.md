@@ -166,21 +166,31 @@ web-app/
 │   │       └── Web.php
 │   └── Models/
 │       └── Employe.php
+├── database/
 ├── public/
 │   ├── css/
 │   └── js/
 ├── resources/
+│   ├── css/
+│   ├── js/
 │   └── views/
 │       ├── kalkulator/
 │       ├── layouts/
 │       ├── mahasiswa/
 │       ├── template/
 │       ├── dashboard.blade.php
+│       ├── edit_data.blade.php
 │       ├── gallery.blade.php
-│       └── tampil_data.blade.php
+│       ├── home.blade.php
+│       ├── tambah_data.blade.php
+│       ├── tampil_data.blade.php
+│       └── welcome.blade.php
 ├── routes/
+│   ├── console.php
 │   └── web.php
+├── company.sql                  # Export database MySQL (company & tabel employes)
 └── README.md
+
 ```
 ## Konfigurasi Database (`MySQL / XAMPP`)
 <img width="1366" height="739" alt="employes" src="https://github.com/user-attachments/assets/ad3a7d6a-193c-437c-bfa0-348bb0a7b73b" />
