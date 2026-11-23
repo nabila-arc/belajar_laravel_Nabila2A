@@ -238,6 +238,65 @@ web-app/
    php artisan migrate
    php artisan serve
    ```
+# Bab Membuat Autentifikasi
+
+Dokumentasi implementasi fitur **Authentication (Login & Logout)** berbasis *Session* serta pembatasan hak akses halaman (*Route Protection*) menggunakan **Custom Middleware (`IsLogin`)** pada framework **Laravel 13**.
+
+---
+
+## Ringkasan Tahap Pengerjaan
+
+1. **Pembuatan Antarmuka Login (`login.blade.php`):** Membuat halaman form login pengguna (`email` dan `password`) lengkap dengan proteksi `@csrf` pada `resources/views/login.blade.php` dan menjadikannya halaman awal pada rute `/`.
+2. **Pembuatan Controller Autentikasi (`AuthController.php`):** Mengimplementasikan logika validasi kredensial pengguna terhadap tabel `users` (verifikasi `email` dan `Hash::check()`), penyimpanan status sesi `logged_in`, serta penghapusan sesi saat proses `logout`.
+3. **Pembuatan Custom Middleware (`IsLogin.php`):** Membuat middleware `App\Http\Middleware\IsLogin` untuk memeriksa keberadaan sesi `logged_in` sebelum mengizinkan akses ke halaman internal.
+4. **Registrasi Alias Middleware (`bootstrap/app.php`):** Mendaftarkan alias middleware `'islogin' => \App\Http\Middleware\IsLogin::class` melalui method `$middleware->alias([...])` sesuai arsitektur Laravel 13.
+5. **Konfigurasi Rute Terproteksi (`routes/web.php`) & Navigasi (`sidebar.blade.php`):** Memasang middleware `islogin` pada rute halaman internal (seperti `/dashboard` dan `/employe`) serta menambahkan menu tombol **Logout** pada `resources/views/template/sidebar.blade.php`.
+
+---
+
+## Struktur Utama Folder Terkait Authentication
+
+```text
+web-app/
+├── app/
+│   └── Http/
+│       ├── Controllers/
+│       │   └── AuthController.php
+│       └── Middleware/
+│           └── IsLogin.php
+├── bootstrap/
+│   └── app.php
+├── resources/
+│   └── views/
+│       ├── template/
+│       │   └── sidebar.blade.php
+│       └── login.blade.php
+└── routes/
+    └── web.php
+```
+
+---
+
+## Daftar Endpoint / URL (Bab Authentication)
+
+| Method | Endpoint / URL | Controller / Aksi | Middleware | Deskripsi |
+| :--- | :--- | :--- | :--- | :--- |
+| `GET` | `/` | `view('login')` | - | Menampilkan halaman form login sebagai halaman utama |
+| `POST` | `/login` | `AuthController@login` | - | Memvalidasi `email` & `password` dan membuat sesi `logged_in` |
+| `GET` | `/logout` | `AuthController@logout` | - | Menghapus sesi autentikasi dan mengarahkan kembali ke halaman login |
+| `GET` | `/dashboard` | `DashboardController@index` | `islogin` | Halaman dashboard utama (hanya dapat diakses setelah login) |
+| `GET` | `/employe` | `EmployeController@index` | `islogin` | Halaman CRUD data pegawai (terproteksi middleware `islogin`) |
+
+---
+
+## Hasil Implementasi Tampilan
+<img width="1366" height="730" alt="login" src="https://github.com/user-attachments/assets/40c2c4ad-3cad-4123-95d1-c2c42a4081c5" />
+<img width="1366" height="736" alt="dashboard" src="https://github.com/user-attachments/assets/4b38df2d-85d1-4283-98ee-ba4fec7f096c" />
+<img width="1366" height="730" alt="galery" src="https://github.com/user-attachments/assets/434f9e1b-3a53-45cb-ac14-74e009637385" />
+<img width="1366" height="730" alt="CRUD" src="https://github.com/user-attachments/assets/3d76d8e2-69b0-4931-9056-ecf60e841fe2" />
+
+
+
 ## Cara Menjalankan di Komputer Lokal
 
 1. **Clone repositori dan masuk ke folder proyek:**
